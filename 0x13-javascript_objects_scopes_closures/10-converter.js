@@ -1,10 +1,7 @@
 #!/usr/bin/node
 
-function converter(base) {
-  return function convertToBase(num) {
+exports.converter = function (base) {
+  return function (num) {
     return num.toString(base);
   };
-}
-
-module.exports = converter;
-
+};
