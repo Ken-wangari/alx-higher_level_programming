@@ -8,7 +8,7 @@ for (const key in dict) {
   if (!newDict[value]) {
     newDict[value] = [];
   }
-  newDict[value].unshift(key);
+  newDict[value].push(key);
 }
 
 console.log(newDict);
