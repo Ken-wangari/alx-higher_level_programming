@@ -1,22 +1,12 @@
 #!/usr/bin/node
-
-if (process.argv.length <= 3) {
-  console.log('0');
-} else {
-  const numbers = process.argv.slice(2).map(Number);
-
-  let largest = -Infinity;
-  let secondLargest = -Infinity;
-
-  for (const num of numbers) {
-    if (num > largest) {
-      secondLargest = largest;
-      largest = num;
-    } else if (num > secondLargest && num < largest) {
-      secondLargest = num;
-    }
+function factorial (n) {
+  if (n < 0) {
+    return (-1);
   }
-
-  console.log(secondLargest !== -Infinity ? secondLargest : '0');
+  if (n === 0 || isNaN(n)) {
+    return (1);
+  }
+  return (n * factorial(n - 1));
 }
 
+console.log(factorial(Number(process.argv[2])));
