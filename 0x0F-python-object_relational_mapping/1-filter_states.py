@@ -1,35 +1,42 @@
--- Create the database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS hbtn_0e_4_usa;
+#!/usr/bin/python3
+"""Lists all states from the database hbtn_0e_0_usa whose names start with 'N'."""
+import MySQLdb
+import sys
 
--- Use the database
-USE hbtn_0e_4_usa;
+def get_states_starting_with_N(username, password, database):
+    try:
+        # Connect to the MySQL database
+        db = MySQLdb.connect(host="localhost", user=username, passwd=password, db=database, port=3306)
+        cursor = db.cursor()
 
--- Create the 'states' table
-CREATE TABLE IF NOT EXISTS states (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(256) NOT NULL
-);
+        # Execute the SQL query to select states starting with 'N'
+        query = "SELECT * FROM states WHERE name LIKE BINARY 'N%' ORDER BY states.id"
+        cursor.execute(query)
 
--- Insert data into the 'states' table
-INSERT INTO states (name) VALUES 
-  ('California'),
-  ('Arizona'),
-  ('Texas'),
-  ('New York'),
-  ('Nevada');
+        # Fetch all rows and print them
+        rows = cursor.fetchall()
+        for row in rows:
+            print(row)
 
--- Create the 'cities' table
-CREATE TABLE IF NOT EXISTS cities (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  state_id INT NOT NULL,
-  name VARCHAR(256) NOT NULL,
-  FOREIGN KEY(state_id) REFERENCES states(id)
-);
+    except MySQLdb.Error as e:
+        print("MySQL Error:", e)
 
--- Insert data into the 'cities' table
-INSERT INTO cities (state_id, name) VALUES
-  (1, 'San Francisco'), (1, 'San Jose'), (1, 'Los Angeles'), (1, 'Fremont'), (1, 'Livermore'),
-  (2, 'Page'), (2, 'Phoenix'),
-  (3, 'Dallas'), (3, 'Houston'), (3, 'Austin'),
-  (4, 'New York'),
-  (5, 'Las Vegas'), (5, 'Reno'), (5, 'Henderson'), (5, 'Carson City');
+    finally:
+        # Close cursor and database connection
+        if cursor:
+            cursor.close()
+        if db:
+            db.close()
+
+if __name__ == "__main__":
+    # Check if correct number of command-line arguments are provided
+    if len(sys.argv) != 4:
+        print("Usage: python3 script_name.py <username> <password> <database>")
+        sys.exit(1)
+
+    # Extract command-line arguments
+    username, password, database = sys.argv[1:]
+
+    # Call function to get states starting with 'N'
+    get_states_starting_with_N(username, password, database)
+
