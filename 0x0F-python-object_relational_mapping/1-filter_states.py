@@ -33,4 +33,3 @@ INSERT INTO cities (state_id, name) VALUES
   (3, 'Dallas'), (3, 'Houston'), (3, 'Austin'),
   (4, 'New York'),
   (5, 'Las Vegas'), (5, 'Reno'), (5, 'Henderson'), (5, 'Carson City');
-
